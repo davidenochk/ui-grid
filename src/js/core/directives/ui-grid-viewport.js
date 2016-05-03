@@ -118,7 +118,6 @@
               // The row offset-top is just the height of the rows above the current top-most row, which are no longer rendered
               var hiddenRowWidth = (rowContainer.currentTopRow) * rowContainer.grid.options.rowHeight;
 
-              // return { 'margin-top': hiddenRowWidth + 'px' };
               styles['margin-top'] = hiddenRowWidth + 'px';
             }
 
@@ -130,7 +129,9 @@
                 styles['margin-left'] = colContainer.columnOffset + 'px';
               }
             }
-
+            styles['height'] = 'auto';
+            styles['position'] = 'relative';
+            styles['display'] = 'table';
             return styles;
           };
         }]

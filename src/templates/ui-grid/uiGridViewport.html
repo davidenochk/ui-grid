@@ -14,29 +14,25 @@
         ui-grid-row="row"
         row-render-index="rowRenderIndex">
       </div>
-      <div class="ui-grid-child-row" data-ng-show="row.entity.opened">
-        <!--<cdk-table model="grid.appScope.childData" options="grid.appScope.childOptions"  offset-row-height="-42" select-row="false" show-grid-menu="false" auto-generate-columns="false" show-grid-foot="'false'" show-col-menu="false"  id="{{$index}}"></cdk-table>-->
-        <!--<table>-->
-        <!--<tr>-->
-        <!--<th ng-repeat="col in Object.keys(row.entity.childData)">{{col}}</th>-->
-        <!--</tr>-->
-        <!--<tr ng-repeat="row in row.entity.childData">-->
-        <!--<td ng-repeat="td in Object.keys(row)">{{row[td]}}</td>-->
-        <!--</tr>-->
+      <cdk-table data-ng-if="row.entity.childData" model="row.entity.childData" auto-generate-columns="false"
+                 id="childGrid"
+                 select-row="false"
+                 full-row-selec="false" ,
+                 options="row.entity.childOptions"
+                 max-height="200"
+                 show-grid-menu="false" ,
+                 show-col-menu="false"
+      ></cdk-table>
+      <!--<div class="ui-grid-child-row" data-ng-show="row.entity.opened">-->
+      <!--<table data-ng-show="row.entity.childData" class="CDK_grid" style="margin-left:1%;width:99%" cellpadding="0" cellspacing="0">-->
+      <!--<tr>-->
+      <!--<th ng-repeat="col in Viewport.GetColumns(row.entity.childData[0])">{{col}}</th>-->
+      <!--</tr>-->
+      <!--<tr ng-repeat="row in row.entity.childData">-->
+      <!--<td ng-repeat="td in Viewport.GetColumns(row)">{{row[td]}}</td>-->
+      <!--</tr>-->
         <!--</table>-->
-        <table class="CDK_grid" style="margin-left:1%;width:99%" cellpadding="0" cellspacing="0">
-          <tr>
-            <th>Hello</th>
-            <th>City</th>
-            <th>State</th>
-          </tr>
-          <tr ng-repeat="d in grid.appScope.childData">
-            <td>Hello</td>
-            <td>{{d.CITY}}</td>
-            <td>{{d.STATE}}</td>
-          </tr>
-        </table>
-      </div>
+      <!--</div>-->
     </div>
   </div>
 </div>

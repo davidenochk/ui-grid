@@ -1,15 +1,15 @@
-(function(){
+(function () {
   'use strict';
 
-  angular.module('ui.grid').directive('uiGridViewport', ['gridUtil','ScrollEvent','uiGridConstants', '$log',
-    function(gridUtil, ScrollEvent, uiGridConstants, $log) {
+  angular.module('ui.grid').directive('uiGridViewport', ['gridUtil', 'ScrollEvent', 'uiGridConstants', '$log',
+    function (gridUtil, ScrollEvent, uiGridConstants, $log) {
       return {
         replace: true,
         scope: {},
         controllerAs: 'Viewport',
         templateUrl: 'ui-grid/uiGridViewport',
         require: ['^uiGrid', '^uiGridRenderContainer'],
-        link: function($scope, $elm, $attrs, controllers) {
+        link: function ($scope, $elm, $attrs, controllers) {
           // gridUtil.logDebug('viewport post-link');
 
           var uiGridCtrl = controllers[0];
@@ -57,12 +57,12 @@
             var scrollEvent = new ScrollEvent(grid, rowContainer, colContainer, ScrollEvent.Sources.ViewPortScroll);
             scrollEvent.newScrollLeft = newScrollLeft;
             scrollEvent.newScrollTop = newScrollTop;
-            if ( horizScrollPercentage > -1 ){
-              scrollEvent.x = { percentage: horizScrollPercentage };
+            if (horizScrollPercentage > -1) {
+              scrollEvent.x = {percentage: horizScrollPercentage};
             }
 
-            if ( vertScrollPercentage > -1 ){
-              scrollEvent.y = { percentage: vertScrollPercentage };
+            if (vertScrollPercentage > -1) {
+              scrollEvent.y = {percentage: vertScrollPercentage};
             }
 
             grid.scrollContainers($scope.$parent.containerId, scrollEvent);
@@ -78,36 +78,41 @@
             grid.addHorizontalScrollSync($scope.$parent.containerId + 'footer', syncHorizontalFooter);
           }
 
-          function syncVerticalScroll(scrollEvent){
+          function syncVerticalScroll(scrollEvent) {
             containerCtrl.prevScrollArgs = scrollEvent;
-            var newScrollTop = scrollEvent.getNewScrollTop(rowContainer,containerCtrl.viewport);
+            var newScrollTop = scrollEvent.getNewScrollTop(rowContainer, containerCtrl.viewport);
             $elm[0].scrollTop = newScrollTop;
 
           }
 
-          function syncHorizontalScroll(scrollEvent){
+          function syncHorizontalScroll(scrollEvent) {
             containerCtrl.prevScrollArgs = scrollEvent;
             var newScrollLeft = scrollEvent.getNewScrollLeft(colContainer, containerCtrl.viewport);
-            $elm[0].scrollLeft =  gridUtil.denormalizeScrollLeft(containerCtrl.viewport,newScrollLeft, grid);
+            $elm[0].scrollLeft = gridUtil.denormalizeScrollLeft(containerCtrl.viewport, newScrollLeft, grid);
           }
 
-          function syncHorizontalHeader(scrollEvent){
+          function syncHorizontalHeader(scrollEvent) {
             var newScrollLeft = scrollEvent.getNewScrollLeft(colContainer, containerCtrl.viewport);
             if (containerCtrl.headerViewport) {
-              containerCtrl.headerViewport.scrollLeft = gridUtil.denormalizeScrollLeft(containerCtrl.viewport,newScrollLeft, grid);
+              containerCtrl.headerViewport.scrollLeft = gridUtil.denormalizeScrollLeft(containerCtrl.viewport, newScrollLeft, grid);
             }
           }
 
-          function syncHorizontalFooter(scrollEvent){
+          function syncHorizontalFooter(scrollEvent) {
             var newScrollLeft = scrollEvent.getNewScrollLeft(colContainer, containerCtrl.viewport);
             if (containerCtrl.footerViewport) {
-              containerCtrl.footerViewport.scrollLeft =  gridUtil.denormalizeScrollLeft(containerCtrl.viewport,newScrollLeft, grid);
+              containerCtrl.footerViewport.scrollLeft = gridUtil.denormalizeScrollLeft(containerCtrl.viewport, newScrollLeft, grid);
             }
           }
 
 
         },
         controller: ['$scope', function ($scope) {
+          this.GetColumns = function (dat) {
+            if (dat)
+              return Object.keys(dat);
+            else return [];
+          };
           this.rowStyle = function (index) {
             var rowContainer = $scope.rowContainer;
             var colContainer = $scope.colContainer;

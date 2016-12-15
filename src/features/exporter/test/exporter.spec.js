@@ -27,7 +27,7 @@ describe('ui.grid.exporter uiGridExporterService', function () {
     grid = gridClassFactory.createGrid({});
     grid.options.columnDefs = [
         {field: 'col1', name: 'col1', displayName: 'Col1', width: 50, pinnedLeft: true},
-        {field: 'col2', name: 'col2', displayName: 'Col2', width: '*', type: 'number'},
+        {field: 'col2', name: 'col2', displayName: 'Col2', width: '*', type: 'number', cellFilter: 'uppercase'},
         {field: 'col3', name: 'col3', displayName: 'Col3', width: 100},
         {field: 'col4', name: 'col4', displayName: 'Col4', width: 200}
     ];
@@ -75,6 +75,7 @@ describe('ui.grid.exporter uiGridExporterService', function () {
         exporterCsvFilename: 'download.csv',
         exporterPdfFilename: 'download.pdf',
         exporterOlderExcelCompatibility: false,
+        exporterIsExcelCompatible: false,
         exporterPdfDefaultStyle : { fontSize : 11 },
         exporterPdfTableStyle : { margin : [ 0, 5, 0, 15 ] },
         exporterPdfTableHeaderStyle : { bold : true, fontSize : 12, color : 'black' },
@@ -92,7 +93,8 @@ describe('ui.grid.exporter uiGridExporterService', function () {
         exporterMenuPdf: true,
         exporterFieldCallback: jasmine.any(Function),
         exporterAllDataFn: null,
-        exporterSuppressColumns: []
+        exporterSuppressColumns: [],
+        exporterMenuItemOrder: 200
       });
     });
 
@@ -105,6 +107,7 @@ describe('ui.grid.exporter uiGridExporterService', function () {
         exporterCsvFilename: 'myfile.csv',
         exporterPdfFilename: 'myfile.pdf',
         exporterOlderExcelCompatibility: true,
+        exporterIsExcelCompatible: true,
         exporterPdfDefaultStyle : { fontSize : 12 },
         exporterPdfTableStyle : { margin : [ 15, 5, 15, 15 ] },
         exporterPdfTableHeaderStyle : { bold : false, fontSize : 12, color : 'green' },
@@ -122,7 +125,8 @@ describe('ui.grid.exporter uiGridExporterService', function () {
         exporterMenuPdf: false,
         exporterFieldCallback: callback,
         exporterAllDataPromise: callback,
-        exporterSuppressColumns: [ 'buttons' ]
+        exporterSuppressColumns: [ 'buttons' ],
+        exporterMenuItemOrder: 75
       };
       uiGridExporterService.defaultGridOptions(options);
       expect( options ).toEqual({
@@ -132,6 +136,7 @@ describe('ui.grid.exporter uiGridExporterService', function () {
         exporterCsvFilename: 'myfile.csv',
         exporterPdfFilename: 'myfile.pdf',
         exporterOlderExcelCompatibility: true,
+        exporterIsExcelCompatible: true,
         exporterPdfDefaultStyle : { fontSize : 12 },
         exporterPdfTableStyle : { margin : [ 15, 5, 15, 15 ] },
         exporterPdfTableHeaderStyle : { bold : false, fontSize : 12, color : 'green' },
@@ -150,7 +155,8 @@ describe('ui.grid.exporter uiGridExporterService', function () {
         exporterFieldCallback: callback,
         exporterAllDataFn: callback,
         exporterAllDataPromise: callback,
-        exporterSuppressColumns: [ 'buttons' ]
+        exporterSuppressColumns: [ 'buttons' ],
+        exporterMenuItemOrder: 75
       });
     });
   });
@@ -262,6 +268,14 @@ describe('ui.grid.exporter uiGridExporterService', function () {
     it('gets selected rows and visible columns', function() {
       expect(uiGridExporterService.getData(grid, uiGridExporterConstants.SELECTED, uiGridExporterConstants.VISIBLE)).toEqual([
         [ {value: 'a_0'}, {value: 'b_0'}, {value: 'd_0'} ]
+      ]);
+    });
+
+    it('gets the rows display values', function() {
+      expect(uiGridExporterService.getData(grid, uiGridExporterConstants.ALL, uiGridExporterConstants.ALL, true)).toEqual([
+        [ {value: 'a_0'}, {value: 'B_0'}, {value: 'c_0'}, {value: 'd_0'} ],
+        [ {value: 'a_1'}, {value: 'B_1'}, {value: 'c_1'}, {value: 'd_1'} ],
+        [ {value: 'a_2'}, {value: 'B_2'}, {value: 'c_2'}, {value: 'd_2'} ]
       ]);
     });
 
